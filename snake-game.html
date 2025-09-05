@@ -687,8 +687,8 @@
         <div class="reward-modal">
             <h2 class="reward-title">🎉 恭喜！🎉</h2>
             <div class="reward-message">
-                哇，你居然创造了新记录！<br>
-                奖励你开发者联系方式：
+                哇，你居然超过了360分诶！<br>
+                彩蛋开发者联系方式：
             </div>
             <div class="developer-contact">
                 <div class="contact-label">开发者微信/电话</div>
@@ -1122,22 +1122,29 @@
             // 播放游戏结束音效
             playGameOverSound();
             
+            // 检查是否达到360分彩蛋
+            let showRewardPopup = false;
+            if (score >= 360) {
+                showRewardPopup = true;
+                // 播放新纪录音效
+                setTimeout(() => playNewRecordSound(), 500);
+            }
+            
             // 更新最高分
             if (score > highScore) {
                 highScore = score;
                 document.getElementById('highScore').textContent = highScore;
                 document.getElementById('newRecord').style.display = 'block';
                 saveHighScore();
-                
-                // 播放新纪录音效
-                setTimeout(() => playNewRecordSound(), 500);
-                
-                // 显示奖励弹窗（延迟1.5秒后显示）
+            } else {
+                document.getElementById('newRecord').style.display = 'none';
+            }
+            
+            // 显示彩蛋弹窗（当分数>=360时）
+            if (showRewardPopup) {
                 setTimeout(() => {
                     document.getElementById('rewardOverlay').style.display = 'flex';
                 }, 1500);
-            } else {
-                document.getElementById('newRecord').style.display = 'none';
             }
             
             // 显示游戏结束画面
